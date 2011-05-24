@@ -1,13 +1,10 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
-class Plugin
+class Channel
   def initialize
     
   end
 
-
-  def matches(input)
-    false
-  end
+  attr_accessor :user_list
 end
