@@ -4,19 +4,15 @@
 class Application
 
   def initialize
-    @behaviors = []
+    @plugins = []
   end
 
   private
-  def add_behavior(behavior)
-    @behaviors << behavior
+  def add_plugin(plugin)
+    @plugins << plugin
   end
 
-  def load_behavior
-    
-  end
-
-  attr_accessor :behaviors
+  attr_accessor :plugins
 end
 
 Application.new
