@@ -6,7 +6,6 @@ class Plugin
     
   end
 
-
   def matches(input)
     false
   end

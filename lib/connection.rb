@@ -5,4 +5,22 @@ class Connection
   def initialize
     
   end
+
+  def connect
+
+  end
+
+  def disconnect
+
+  end
+
+  def online
+
+  end
+
+  def offline
+    !online
+  end
+
+  attr_accessor :username, :password, :host, :port, :ssl
 end

@@ -1,10 +1,8 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
-class Message
+class Me < Plugin
   def initialize
     
   end
-
-  attr_accessor :sender, :receiver, :timestamp, :text
 end
