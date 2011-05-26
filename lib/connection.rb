@@ -22,5 +22,9 @@ class Connection
     !online
   end
 
+  def send(message)
+    
+  end
+
   attr_accessor :username, :password, :host, :port, :ssl
 end

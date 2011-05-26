@@ -2,30 +2,20 @@
 # and open the template in the editor.
 
 class Channel
-  @@list = []
 
-  def initialize(id)
+  def initialize(id, connection)
     @id = id
+    @connection = connection
     @user_list = []
   end
 
-  def self.add(channel)
-    @@list << channel
+  def add_user(user)
+    @user_list << user unless @user_list.index(user)
   end
 
-  # Creates a new channel within the application
-  def self.create(id)
-    channel = Channel.new(id)
-    Channel.add(channel)
+  def delete_user(user)
+    @user_list.delete(user)
   end
 
-  def self.list
-    @@list
-  end
-
-  def self.find(id)
-    @@list.detect { |channel| channel.id == id }
-  end
-
-  attr_accessor :id, :user_list
+  attr_accessor :connection, :id, :user_list
 end
