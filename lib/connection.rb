@@ -1,9 +1,16 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
+require 'rubygems'
+require 'xmpp4r-simple'
+
 class Connection
-  def initialize
-    
+  def initialize(host, port, username, password, ssl)
+    @host = host
+    @port = port
+    @username = username
+    @password = password
+    @ssl = ssl
   end
 
   def connect
@@ -26,5 +33,5 @@ class Connection
     
   end
 
-  attr_accessor :username, :password, :host, :port, :ssl
+  attr_accessor :host, :port, :username, :password, :ssl
 end

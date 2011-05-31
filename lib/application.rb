@@ -1,13 +1,12 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
-require 'rubygems'
-require 'xmpp4r-simple'
+require 'connection'
 
 class Application
 
   @@plugins = []
-  @@channels = []
+  @@connections = []
   @@users = []
 
   # Registers a given plugin within the application
