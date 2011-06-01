@@ -2,36 +2,36 @@
 # and open the template in the editor.
 
 require 'rubygems'
-require 'xmpp4r-simple'
+require 'xmpp4r'
 
 class Connection
-  def initialize(host, port, username, password, ssl)
+  include Jabber
+
+  def initialize(host, port = 5222)
     @host = host
     @port = port
-    @username = username
-    @password = password
-    @ssl = ssl
+    @client = nil
   end
 
-  def connect
+  def connect(username, password)
+    @username = username
+    @password = password
 
+    jid = JID::new("#{@username}/ConfBot")
+    @client = Client.new(jid) unless @client
+    @client.connect(@host, @port)
+    @client.auth(@password)
+  end
+
+  def reconnect
+    connect(@username, @password) if @client
   end
 
   def disconnect
-
-  end
-
-  def online
-
-  end
-
-  def offline
-    !online
+    @client.close if @client
   end
 
   def send(message)
     
   end
-
-  attr_accessor :host, :port, :username, :password, :ssl
 end
