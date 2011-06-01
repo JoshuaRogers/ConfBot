@@ -31,7 +31,7 @@ class Connection
     @client.close if @client
   end
 
-  def send(message)
+  def send(recipient, message)
     
   end
 end
