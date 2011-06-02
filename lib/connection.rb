@@ -11,6 +11,7 @@ class Connection
     @host = host
     @port = port
     @client = nil
+    @id = 0
   end
 
   def connect(username, password)
@@ -21,17 +22,25 @@ class Connection
     @client = Client.new(jid) unless @client
     @client.connect(@host, @port)
     @client.auth(@password)
-  end
-
-  def reconnect
-    connect(@username, @password) if @client
+    self
   end
 
   def disconnect
     @client.close if @client
+    self
   end
 
-  def send(recipient, message)
-    
+  def send(recipient, text)
+    id += 1
+    message = Jabber::Message.new(recipient, text).set_type(:chat).set_id(id)
+    @client.send message
+    self
   end
+
+  def add_friend(address)
+    presence = Presence.new.set_type(:subscribe).set_to(address)
+    @client.send presence
+    self
+  end
+
 end
