@@ -21,7 +21,16 @@ class Application
   end
 
   def start
-    
+    load_database
+  end
+
+  private
+  def load_database
+    @db = SQLite3::Database.new("confbot.db")
+    @db.results_as_hash = true
+
+    Connection.initialize_database(@db)
+    @db.close
   end
 
 end

@@ -43,4 +43,15 @@ class Connection
     self
   end
 
+  def self.initialize_database(database)
+    database.execute %q{
+      CREATE TABLE connection (
+        id integer primary key,
+        host varchar(128),
+        user varchar(128),
+        pass varchar(128)
+      )
+    }
+  end
+
 end
