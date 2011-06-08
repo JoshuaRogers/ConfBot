@@ -7,17 +7,17 @@ require 'connection'
 
 class Application
 
-  @@plugins = []
-  @@connections = []
-  @@users = []
+  @plugins = []
+  @connections = []
+  @users = []
 
   # Registers a given plugin within the application
   def self.add_plugin(plugin)
-    @@plugins << plugin unless @@plugins.index(plugin)
+    @plugins << plugin unless @plugins.index(plugin)
   end
 
   def self.delete_plugin(plugin)
-    @@plugins.delete(plugin)
+    @plugins.delete(plugin)
   end
 
   def self.start
@@ -26,4 +26,4 @@ class Application
 
 end
 
-Application.start
+Application.new.start
