@@ -50,9 +50,7 @@ class Connection
   end
 
   def message_callback
-    @client.add_message_callback do |m|
-      puts m
-    end
+    @client.add_message_callback do |m| end
   end
 
   def status_callback

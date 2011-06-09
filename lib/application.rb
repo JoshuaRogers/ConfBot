@@ -4,6 +4,7 @@
 require 'rubygems'
 require 'sqlite3'
 require 'connection'
+require 'message'
 
 class Application
 
@@ -33,6 +34,8 @@ class Application
     @db.close
   end
 
-end
+  def create_message(message)
 
-Application.new.start
+  end
+
+end
