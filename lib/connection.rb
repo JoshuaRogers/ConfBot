@@ -31,7 +31,7 @@ class Connection
   end
 
   def send(recipient, text)
-    id += 1
+    @id += 1
     message = Jabber::Message.new(recipient, text).set_type(:chat).set_id(id)
     @client.send message
     self
