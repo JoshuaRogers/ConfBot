@@ -22,7 +22,7 @@ class Connection
     @client = Client.new(jid) unless @client
     @client.connect(@host, @port)
     @client.auth(@password)
-
+    
     self
   end
 
@@ -47,6 +47,20 @@ class Connection
     presence = Presence.new.set_type(:subscribe).set_to(address)
     @client.send presence
     self
+  end
+
+  def message_callback
+    @client.add_message_callback do |m|
+      puts m
+    end
+  end
+
+  def status_callback
+    @client.add_presence_callback do |s| end
+  end
+
+  def update_callback
+    @client.add_update_callback do |s| end
   end
 
 end
