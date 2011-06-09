@@ -22,6 +22,12 @@ class Connection
     @client = Client.new(jid) unless @client
     @client.connect(@host, @port)
     @client.auth(@password)
+
+    self
+  end
+
+  def status(status)
+    @client.send(Presence.new.set_type(status))
     self
   end
 
