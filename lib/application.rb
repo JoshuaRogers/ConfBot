@@ -26,7 +26,7 @@ class Application
   end
 
   def stop
-    
+    @db.close
   end
 
   private
@@ -34,8 +34,16 @@ class Application
     @db = SQLite3::Database.new("confbot.db")
     @db.results_as_hash = true
 
-    Connection.initialize_database(@db)
-    @db.close
+    @db.execute %q{
+      CREATE TABLE plugins (
+        id INTEGER AUTO_INCREMENT,
+        filename VARCHAR(128),
+        load BOOLEAN,
+        version INTEGER
+      )
+    }
   end
 
 end
+
+Application.new.start

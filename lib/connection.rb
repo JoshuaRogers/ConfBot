@@ -4,6 +4,7 @@
 require 'rubygems'
 require 'xmpp4r'
 require 'message'
+require 'user'
 
 class Connection
   def initialize(host, port = 5222)
