@@ -25,6 +25,10 @@ class Application
     load_database
   end
 
+  def stop
+    
+  end
+
   private
   def load_database
     @db = SQLite3::Database.new("confbot.db")
@@ -32,10 +36,6 @@ class Application
 
     Connection.initialize_database(@db)
     @db.close
-  end
-
-  def create_message(message)
-
   end
 
 end

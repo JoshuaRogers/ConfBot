@@ -48,16 +48,16 @@ class Connection
     self
   end
 
-  def message_callback
-    @client.add_message_callback { |m| yield create_message(m) }
+  def message_callback=(callback)
+    @client.add_message_callback { |message| callback.call(create_message(message)) }
   end
 
-  def status_callback=
-    @client.add_presence_callback { |s| yield s }
+  def status_callback=(callback)
+    @client.add_presence_callback { |s| callback.call(s) }
   end
 
-  def update_callback=
-    @client.add_update_callback { |u| yield u }
+  def update_callback=(callback)
+    @client.add_update_callback { |u| callback.call(u) }
   end
 
   private
