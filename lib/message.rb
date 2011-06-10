@@ -6,5 +6,5 @@ class Message
     
   end
 
-  attr_accessor :sender, :receiver, :timestamp, :text
+  attr_accessor :sender, :timestamp, :text
 end

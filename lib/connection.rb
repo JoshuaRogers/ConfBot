@@ -3,10 +3,9 @@
 
 require 'rubygems'
 require 'xmpp4r'
+require 'message'
 
 class Connection
-  include Jabber
-
   def initialize(host, port = 5222)
     @host = host
     @port = port
@@ -18,8 +17,8 @@ class Connection
     @username = username
     @password = password
 
-    jid = JID::new("#{@username}/ConfBot")
-    @client = Client.new(jid) unless @client
+    jid = Jabber::JID::new("#{@username}/ConfBot")
+    @client = Jabber::Client.new(jid) unless @client
     @client.connect(@host, @port)
     @client.auth(@password)
     
@@ -27,7 +26,7 @@ class Connection
   end
 
   def status(status)
-    @client.send(Presence.new.set_type(status))
+    @client.send(Jabber::Presence.new.set_type(status))
     self
   end
 
@@ -44,21 +43,31 @@ class Connection
   end
 
   def add_friend(address)
-    presence = Presence.new.set_type(:subscribe).set_to(address)
+    presence = Jabber::Presence.new.set_type(:subscribe).set_to(address)
     @client.send presence
     self
   end
 
   def message_callback
-    @client.add_message_callback do |m| end
+    @client.add_message_callback { |m| yield create_message(m) }
   end
 
-  def status_callback
-    @client.add_presence_callback do |s| end
+  def status_callback=
+    @client.add_presence_callback { |s| yield s }
   end
 
-  def update_callback
-    @client.add_update_callback do |s| end
+  def update_callback=
+    @client.add_update_callback { |u| yield u }
+  end
+
+  private
+  def create_message(m)
+    message = Message.new
+    message.sender = m.from
+    message.text = m.body
+    message.timestamp = Time.now
+
+    message
   end
 
 end
