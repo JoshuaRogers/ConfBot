@@ -26,8 +26,8 @@ class Connection
     self
   end
 
-  def status(status)
-    @client.send(Jabber::Presence.new.set_type(status))
+  def available
+    @client.send(Jabber::Presence.new.set_type(:available))
     self
   end
 

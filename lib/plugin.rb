@@ -9,6 +9,10 @@ class Plugin
   def install
     
   end
+
+  def update(version)
+    
+  end
   
   def uninstall
     
@@ -34,4 +38,6 @@ class Plugin
   def reciptients(message, reciptients)
     
   end
+
+  attr_reader :name, :version, :description
 end
