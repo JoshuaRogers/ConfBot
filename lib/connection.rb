@@ -38,7 +38,7 @@ class Connection
 
   def send(recipient, text)
     @id += 1
-    message = Jabber::Message.new(recipient, text).set_type(:chat).set_id(id)
+    message = Jabber::Message.new(recipient, text).set_type(:chat).set_id(@id)
     @client.send message
     self
   end
@@ -50,7 +50,13 @@ class Connection
   end
 
   def message_callback=(callback)
-    @client.add_message_callback { |message| callback.call(create_message(message)) }
+    @client.add_message_callback do |m|
+      
+      # Messages were being fired off when a user would first start typing.
+      # This should filter out the "xyz is typing." message.
+      message = create_message(m)
+      callback.call message unless message.text.nil?
+    end
   end
 
   def status_callback=(callback)

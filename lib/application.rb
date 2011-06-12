@@ -15,36 +15,33 @@ class Application
   end
 
   def start
-    load_database
-    load_connections
-    load_plugins
+    start_database
+    start_connections
+    start_plugins
   end
 
   def stop
     @db.close
   end
 
-  # Registers a given plugin within the application
-  def add_plugin(plugin)
-    @plugins << plugin unless @plugins.index(plugin)
-  end
-
-  def delete_plugin(plugin)
-    @plugins.delete(plugin)
-  end
-
   def process_message(connection, message)
-    puts connection
-    puts message
+    @plugins.each do |p|
+      message = p.send message
+      return if !message or message.invalid?
+    end
+
+    message.reciptients.each do |r|
+      connection.send(r, message.print)
+    end
   end
 
   private
-  def load_database
+  def start_database
     @db = SQLite3::Database.new("confbot.db")
     @db.results_as_hash = true
 
     # Create the database if it doesn't exist.
-    unless @db.execute("SELECT * FROM sqlite_master")
+    unless @db.execute("SELECT * FROM sqlite_master").length > 0
       @db.execute %q{
         CREATE TABLE connections (
           id INTEGER AUTO_INCREMENT,
@@ -58,14 +55,22 @@ class Application
         CREATE TABLE plugins (
           id INTEGER AUTO_INCREMENT,
           filename VARCHAR(128),
+          classname VARCHAR(64),
           load INTEGER,
-          version INTEGER
+          priority INTEGER
+        )
+      }
+      @db.execute %q{
+        CREATE TABLE users (
+          id INTEGER AUTO_INCREMENT,
+          cid INTEGER
+          jid VARCHAR(256)
         )
       }
     end
   end
 
-  def load_connections
+  def start_connections
     @db.execute("SELECT * FROM connections").each do |c|
       connection = Connection.new(c["host"], c["port"]).connect(c["username"], c["password"])
       connection.available
@@ -74,11 +79,13 @@ class Application
     end
   end
 
-  def load_plugins
-    @db.execute("SELECT * FROM plugins WHERE load = 1").each do |p|
-      require "plugins/#{p['filename']}"
-
+  def start_plugins
+    @db.execute("SELECT * FROM plugins WHERE load = 1 ORDER BY priority ASC").each do |p|
+      require "plugin/#{p['filename']}"
+      plugin = Kernel.const_get(p["classname"]).new
+      @plugins << plugin unless @plugins.index(plugin)
       
+      plugin.activate
     end
   end
 

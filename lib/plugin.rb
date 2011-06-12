@@ -2,22 +2,6 @@
 # and open the template in the editor.
 
 class Plugin
-  def initialize(application)
-    @application = application
-  end
-
-  def install
-    
-  end
-
-  def update(version)
-    
-  end
-  
-  def uninstall
-    
-  end
-  
   def activate
     
   end
@@ -26,17 +10,9 @@ class Plugin
     
   end
   
-  def status_changed(previous, current)
-    
-  end
-
-  # Allow plugins to alter incoming messages.
-  def received(message)
-    
-  end
-
-  def reciptients(message, reciptients)
-    
+  # Allow plugins to alter messages before they are sent to a group.
+  def send(message, reciptients)
+    return message, reciptients
   end
 
   attr_reader :name, :version, :description

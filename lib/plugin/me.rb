@@ -8,7 +8,9 @@ class Me < Plugin
     
   end
 
-  def matches(message)
-    message.text.scan(/\/me\s(.*)/i)
+  def send(message)
+    message.text = message.text.gsub(/^\/me\s/i, "I ")
+    
+    message
   end
 end
