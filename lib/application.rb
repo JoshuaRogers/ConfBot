@@ -60,13 +60,6 @@ class Application
           priority INTEGER
         )
       }
-      @db.execute %q{
-        CREATE TABLE users (
-          id INTEGER AUTO_INCREMENT,
-          cid INTEGER
-          jid VARCHAR(256)
-        )
-      }
     end
   end
 
