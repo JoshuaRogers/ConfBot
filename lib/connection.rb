@@ -3,6 +3,7 @@
 
 require 'rubygems'
 require 'xmpp4r'
+require 'xmpp4r/roster'
 require 'message'
 require 'user'
 
@@ -12,6 +13,8 @@ class Connection
     @port = port
     @client = nil
     @id = 0
+    
+    @users = []
   end
 
   def connect(username, password)
@@ -22,6 +25,12 @@ class Connection
     @client = Jabber::Client.new(jid) unless @client
     @client.connect(@host, @port)
     @client.auth(@password)
+    
+    @roster = Jabber::Roster::Helper.new(@client)
+    @roster.wait_for_roster
+    @roster.items.each do |name,r|
+      
+    end
     
     self
   end
@@ -62,11 +71,11 @@ class Connection
   def status_callback=(callback)
     @client.add_presence_callback { |s| callback.call(s) }
   end
-
+ 
   def update_callback=(callback)
     @client.add_update_callback { |u| callback.call(u) }
   end
-
+  
   private
   def create_message(m)
     message = Message.new

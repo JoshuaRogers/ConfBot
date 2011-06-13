@@ -24,17 +24,6 @@ class Application
     @db.close
   end
 
-  def process_message(connection, message)
-    @plugins.each do |p|
-      message = p.send message
-      return if !message or message.invalid?
-    end
-
-    message.reciptients.each do |r|
-      connection.send(r, message.print)
-    end
-  end
-
   private
   def start_database
     @db = SQLite3::Database.new("confbot.db")
@@ -82,6 +71,17 @@ class Application
     end
   end
 
+  def process_message(connection, message)
+    @plugins.each do |p|
+      message = p.send message
+      return if !message or message.invalid?
+    end
+
+    message.reciptients.each do |r|
+      connection.send(r, message.print)
+    end
+  end
+  
 end
 
 Application.new.start

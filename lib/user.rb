@@ -2,32 +2,33 @@
 # and open the template in the editor.
 
 class User
-  def initialize
-    
+  def initialize(jid, connection)
+    @jid = jid
+    @connection = connection
   end
 
   # Boolean indicating if the user is available.
-  def available
+  def available?
 
   end
 
   # Boolean indicating if the user is away.
-  def away
+  def away?
 
   end
 
   # Boolean indicating if the user is busy.
-  def busy
+  def busy?
 
   end
 
   # Boolean indicating if the user is offline.
-  def offline
+  def offline?
     !online
   end
 
   # Boolean indicating if the user is online.
-  def online
+  def online?
 
   end
 
@@ -37,9 +38,14 @@ class User
   end
 
   # Sends a message to a given user
-  def send(message)
+  def send(m)
+    message = m is Message ? m.print : m
+    @connection.send(jid, message)  
+  end
+  
+  def defriend
     
   end
-
-  attr_accessor :username, :name
+  
+  attr_accessor :status
 end

@@ -3,7 +3,7 @@
 
 require 'plugin'
 
-class User < Plugin
+class Private < Plugin
   def initialize
     
   end
