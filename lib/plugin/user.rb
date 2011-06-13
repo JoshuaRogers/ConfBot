@@ -3,7 +3,7 @@
 
 require 'plugin'
 
-class Invite < Plugin
+class User < Plugin
   def initialize
     
   end
