@@ -29,7 +29,7 @@ class Connection
     @roster = Jabber::Roster::Helper.new(@client)
     @roster.wait_for_roster
     @roster.items.each do |name,r|
-      
+      p r
     end
     
     self
@@ -73,7 +73,7 @@ class Connection
   end
  
   def update_callback=(callback)
-    @client.add_update_callback { |u| callback.call(u) }
+    @roster.add_update_callback { |x, y| callback.call(x, y) }
   end
   
   private
