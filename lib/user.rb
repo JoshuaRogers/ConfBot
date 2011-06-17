@@ -4,8 +4,7 @@
 class User
   def initialize(ri)
     @jid = ri.jid
-    #@subscription = ri.subscription
-    @name = ri.name
+    @name = ri.attributes["name"]
   end
 
   # Boolean indicating if the user is available.
