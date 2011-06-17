@@ -81,7 +81,7 @@ class Connection
     message.sender = @users.detect{ |u| u.address == s.node + "@" + s.domain }
     message.text = m.body
     message.timestamp = Time.now
-    message.reciptients = @users.select { |u| u.online? and !u.busy? }
+    message.reciptients = @users.select { |u| u.online? and u != message.sender }
 
     message
   end

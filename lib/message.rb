@@ -17,6 +17,10 @@ class Message
   def invalid?
     @sender.nil? or @text.empty? or @reciptients.empty?
   end
+  
+  def return_to_sender
+    @reciptients = Array.new.push(@sender)
+  end
 
   attr_accessor :sender, :timestamp, :text, :reciptients, :format
 end

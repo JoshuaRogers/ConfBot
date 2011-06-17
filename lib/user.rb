@@ -37,7 +37,7 @@ class User
   end
   
   def name
-    @name or address
+    @name or @jid.node
   end
   
   attr_accessor :presence, :jid

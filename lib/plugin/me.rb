@@ -9,7 +9,11 @@ class Me < Plugin
   end
 
   def send(message)
-    message.text = message.text.gsub(/^\/me\s/i, "I ")
+    regex = /^\/me\s/i
+    if (message.text =~ regex)
+      message.text = message.text.gsub(regex, message.sender.name + " ")      
+      message.format = false
+    end
     
     message
   end

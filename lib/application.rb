@@ -11,7 +11,6 @@ class Application
   def initialize
     @plugins = []
     @connections = []
-    @users = []
   end
 
   def start
@@ -72,8 +71,6 @@ class Application
   end
 
   def process_message(connection, message)
-    p message.print
-    
     @plugins.each do |p|
       message = p.send message
       return if !message or message.invalid?
