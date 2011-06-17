@@ -28,8 +28,10 @@ class Connection
     
     @roster = Jabber::Roster::Helper.new(@client)
     @roster.wait_for_roster
-    @roster.items.each do |name,r|
-      p r
+    @roster.items.each { |name, r| @users << User.new(r) }
+    
+    @roster.add_presence_callback do |r, old, new|
+      @users.detect{ |u| u.jid == r.jid }.presence = new
     end
     
     self
@@ -63,25 +65,23 @@ class Connection
       
       # Messages were being fired off when a user would first start typing.
       # This should filter out the "xyz is typing." message.
-      message = create_message(m)
-      callback.call message unless message.text.nil?
+      callback.call create_message(m) unless m.body.nil?
     end
   end
 
-  def status_callback=(callback)
-    @client.add_presence_callback { |s| callback.call(s) }
-  end
- 
   def update_callback=(callback)
     @roster.add_update_callback { |x, y| callback.call(x, y) }
   end
   
   private
   def create_message(m)
+    s = Jabber::JID.new(m.from)
+    
     message = Message.new
-    message.sender = m.from
+    message.sender = @users.detect{ |u| u.address == s.node + "@" + s.domain }
     message.text = m.body
     message.timestamp = Time.now
+    message.reciptients = @users.select { |u| u.online? and !u.busy? }
 
     message
   end

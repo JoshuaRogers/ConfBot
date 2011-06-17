@@ -8,14 +8,14 @@ class Message
   
   def print
     if @format
-      "[" + sender.node + "] " + text
+      "[" + sender.name + "] " + text
     else
       text
     end
   end
     
   def invalid?
-    @sender.empty? or @text.empty? or @reciptients.empty?
+    @sender.nil? or @text.empty? or @reciptients.empty?
   end
 
   attr_accessor :sender, :timestamp, :text, :reciptients, :format

@@ -72,13 +72,15 @@ class Application
   end
 
   def process_message(connection, message)
+    p message.print
+    
     @plugins.each do |p|
       message = p.send message
       return if !message or message.invalid?
     end
 
     message.reciptients.each do |r|
-      connection.send(r, message.print)
+      connection.send(r.jid, message.print)
     end
   end
   

@@ -11,8 +11,8 @@ class Plugin
   end
   
   # Allow plugins to alter messages before they are sent to a group.
-  def send(message, reciptients)
-    return message, reciptients
+  def send(message)
+    message
   end
 
   attr_reader :name, :version, :description
