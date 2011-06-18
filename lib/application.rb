@@ -1,22 +1,21 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-
 require 'rubygems'
 require 'sqlite3'
 require 'connection'
 require 'message'
+require 'plugin'
 
 class Application
 
   def initialize
-    @plugins = []
     @connections = []
+    @plugins = []
   end
 
   def start
     start_database
     start_connections
     start_plugins
+    p @plugins
   end
 
   def stop
@@ -39,15 +38,6 @@ class Application
           password VARCHAR(256)
         )
       }
-      @db.execute %q{
-        CREATE TABLE plugins (
-          id INTEGER AUTO_INCREMENT,
-          filename VARCHAR(128),
-          classname VARCHAR(64),
-          load INTEGER,
-          priority INTEGER
-        )
-      }
     end
   end
 
@@ -59,15 +49,19 @@ class Application
       @connections << connection
     end
   end
-
+  
   def start_plugins
-    @db.execute("SELECT * FROM plugins WHERE load = 1 ORDER BY priority ASC").each do |p|
-      require "plugin/#{p['filename']}"
-      plugin = Kernel.const_get(p["classname"]).new
-      @plugins << plugin unless @plugins.index(plugin)
-      
-      plugin.activate
+    Dir.new("plugin").each do |file|
+      require "plugin/#{file}" if file =~ /\.rb$/
     end
+    
+    Plugin.list.each do |class_type| 
+      plugin = class_type.new
+      plugin.activate
+      @plugins << plugin
+    end
+    
+    @plugins = @plugins.sort { |x,y| x.sort_order <=> y.sort_order }
   end
 
   def process_message(connection, message)
@@ -80,8 +74,10 @@ class Application
       connection.send(r.jid, message.print)
     end
   end
-  
+
 end
 
-Application.new.start
+$application = Application.new
+$application.start
+
 gets

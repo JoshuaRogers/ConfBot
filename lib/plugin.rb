@@ -2,6 +2,14 @@
 # and open the template in the editor.
 
 class Plugin
+  def self.inherited(child)
+    @@subclasses << child
+  end
+  
+  def self.list
+    @@subclasses
+  end
+  
   def activate
     
   end
@@ -14,6 +22,11 @@ class Plugin
   def send(message)
     message
   end
-
-  attr_reader :name, :version, :description
+  
+  def sort_order
+    0
+  end
+  
+  private
+  @@subclasses = []
 end
