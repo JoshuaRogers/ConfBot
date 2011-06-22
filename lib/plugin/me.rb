@@ -13,6 +13,7 @@ class Me < Plugin
     if (message.text =~ regex)
       message.text = message.text.gsub(regex, message.sender.name + " ")      
       message.format = false
+      message.reciptients << message.sender
     end
     
     message
