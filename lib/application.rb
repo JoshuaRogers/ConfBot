@@ -15,7 +15,6 @@ class Application
     start_database
     start_connections
     start_plugins
-    p @plugins
   end
 
   def stop
