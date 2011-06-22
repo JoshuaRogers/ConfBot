@@ -8,9 +8,9 @@ class Message
   
   def print
     if @format
-      "[" + sender.name + "] " + text
+      "[" + sender.name + "] " + @text
     else
-      text
+      @text
     end
   end
     
@@ -18,8 +18,10 @@ class Message
     @sender.nil? or @text.empty? or @reciptients.empty?
   end
   
-  def return_to_sender
+  def return_to_sender(message)
+    @text = message
     @reciptients = Array.new.push(@sender)
+    @format = false
   end
 
   attr_accessor :sender, :timestamp, :text, :reciptients, :format
