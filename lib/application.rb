@@ -13,8 +13,8 @@ class Application
 
   def start
     start_database
-    start_connections
     start_plugins
+    start_connections
   end
 
   def stop
