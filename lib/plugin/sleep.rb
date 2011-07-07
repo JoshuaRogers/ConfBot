@@ -1,8 +1,4 @@
 class Sleep < Plugin
-  def initialize
-    @sleepers = {}
-  end
-  
   def send(message)
     # Regex matches the following formats:
     #   /sleep

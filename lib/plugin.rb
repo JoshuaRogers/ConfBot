@@ -10,6 +10,10 @@ class Plugin
     @@subclasses
   end
   
+  def initialize(application)
+    @application = application
+  end
+  
   def activate
     
   end

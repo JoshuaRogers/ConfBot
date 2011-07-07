@@ -1,8 +1,4 @@
 class Me < Plugin
-  def initialize
-    
-  end
-
   def send(message)
     regex = /^\/me\s/i
     if (message.text =~ regex)
