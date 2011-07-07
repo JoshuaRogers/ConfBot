@@ -37,6 +37,12 @@ class Application
           password VARCHAR(256)
         )
       }
+      @db.execute %q{
+        CREATE TABLE plugins (
+          class VARCHAR(256),
+          version INTEGER
+        )
+      }
     end
   end
 
