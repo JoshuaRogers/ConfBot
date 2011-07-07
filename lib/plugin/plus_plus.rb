@@ -4,7 +4,7 @@
 require 'plugin'
 
 class Plus_Plus < Plugin
-  def initialize
-    
+  def send(message)
+    message
   end
 end
