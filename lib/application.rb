@@ -1,8 +1,8 @@
 require 'rubygems'
 require 'sqlite3'
-require 'connection'
-require 'message'
-require 'plugin'
+require_relative 'connection'
+require_relative 'message'
+require_relative 'plugin'
 
 class Application
 
@@ -51,7 +51,7 @@ class Application
   
   def start_plugins
     Dir.new("plugin").each do |file|
-      require "plugin/#{file}" if file =~ /\.rb$/
+      require_relative "plugin/#{file}" if file =~ /\.rb$/
     end
     
     Plugin.list.each do |class_type| 
