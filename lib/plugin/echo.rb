@@ -1,5 +1,3 @@
-require 'plugin'
-
 class Echo < Plugin
   def send(message)
     regex = /^\/echo\s/i
