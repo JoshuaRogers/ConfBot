@@ -21,6 +21,10 @@ class Plugin
   end
   
   # Called when the plugin is started during initialization
+  def initialize(application)
+    @application = application
+  end
+  
   def activate
     
   end

@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 require 'rubygems'
 require 'sqlite3'
 require_relative 'connection'
@@ -13,17 +15,21 @@ class Application
 
   def start
     start_database
-    start_connections
     start_plugins
+    start_connections
   end
 
   def stop
     @db.close
   end
 
+  def db
+    @db
+  end
+  
   private
   def start_database
-    @db = SQLite3::Database.new("confbot.db")
+    @db = SQLite3::Database.new("assets/confbot.db")
     @db.results_as_hash = true
 
     # Create the database if it doesn't exist.
@@ -61,7 +67,7 @@ class Application
     end
     
     Plugin.list.each do |class_type| 
-      plugin = class_type.new
+      plugin = class_type.new(self)
       plugin.activate
       @plugins << plugin
     end
